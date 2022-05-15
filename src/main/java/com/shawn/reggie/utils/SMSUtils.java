@@ -32,7 +32,7 @@ public class SMSUtils {
         request.setTemplateParam("{\"code\":\"" + param + "\"}");
         try {
             SendSmsResponse response = client.getAcsResponse(request);
-            System.out.println("短信发送成功");
+            //System.out.println("短信发送成功");
         } catch (ClientException e) {
             e.printStackTrace();
         }

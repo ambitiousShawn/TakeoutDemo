@@ -99,7 +99,7 @@ public class EmployeeController {
     @GetMapping("/page")
     public R<Page> page (Integer page,Integer pageSize,String name){
 
-        System.out.println("分页查询方法被调用！");
+        //System.out.println("分页查询方法被调用！");
 
         //分页构造器
         Page pageInfo = new Page(page,pageSize);
@@ -134,7 +134,7 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public R<Employee> getById(@PathVariable Long id){
 
-        System.out.println("getById被执行！");
+        //System.out.println("getById被执行！");
 
         Employee employee = employeeService.getById(id);
         if (employee!= null){

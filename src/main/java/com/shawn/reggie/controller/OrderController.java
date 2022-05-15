@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.shawn.reggie.common.BaseContext;
 import com.shawn.reggie.common.R;
-import com.shawn.reggie.dto.DishDto;
-import com.shawn.reggie.entity.Category;
 import com.shawn.reggie.entity.OrderDetail;
 import com.shawn.reggie.entity.Orders;
 import com.shawn.reggie.service.OrderDetailService;

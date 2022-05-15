@@ -7,10 +7,11 @@ import com.shawn.reggie.common.R;
 import com.shawn.reggie.dto.SetmealDto;
 import com.shawn.reggie.entity.Category;
 import com.shawn.reggie.entity.Setmeal;
-import com.shawn.reggie.entity.SetmealDish;
 import com.shawn.reggie.service.CategoryService;
 import com.shawn.reggie.service.SetmealService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public class SetmealController {
      * @return
      */
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R <String> save (@RequestBody SetmealDto setmealDto){
         setmealService.saveWithDish(setmealDto);
         return R.success("新增数据成功");
@@ -84,6 +86,7 @@ public class SetmealController {
     }
 
     @PostMapping("/status/{type}")
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> status (@RequestParam List<Long> ids,@PathVariable Integer type){
         setmealService.modifyStatus(ids,type);
         return R.success("修改状态成功");
@@ -99,11 +102,14 @@ public class SetmealController {
     }*/
     /**
      * 根据条件查询套餐数据
+     * Cacheable注解会优先使方法在setmealCache缓存中查找数据，如果找到，则直接返回数据
+     * 如果未找到，那么再执行下述程序。
      *
      * @param setmeal
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId+'_'+#setmeal.status")
     public R <List <Setmeal>> list(Setmeal setmeal) {
         LambdaQueryWrapper <Setmeal> queryWrapper = new LambdaQueryWrapper <>();
         queryWrapper.eq(setmeal.getCategoryId() != null, Setmeal::getCategoryId, setmeal.getCategoryId());

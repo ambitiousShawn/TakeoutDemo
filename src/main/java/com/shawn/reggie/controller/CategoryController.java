@@ -25,7 +25,7 @@ public class CategoryController {
      */
     @PostMapping
     public R <String> save (@RequestBody Category category){
-        System.out.println(category+"已被添加");
+        //System.out.println(category+"已被添加");
         categoryService.save(category);
         return R.success("新增菜品成功");
     }

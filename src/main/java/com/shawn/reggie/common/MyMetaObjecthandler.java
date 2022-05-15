@@ -20,7 +20,7 @@ public class MyMetaObjecthandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        System.out.println("插入操作自动填充功能已执行！");
+        //System.out.println("插入操作自动填充功能已执行！");
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
         metaObject.setValue("createUser", BaseContext.getCurrentId());
@@ -34,7 +34,7 @@ public class MyMetaObjecthandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        System.out.println("更新操作自动填充功能已执行！");
+        //System.out.println("更新操作自动填充功能已执行！");
 
         long id = Thread.currentThread().getId();
 
