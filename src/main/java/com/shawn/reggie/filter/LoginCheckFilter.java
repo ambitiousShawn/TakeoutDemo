@@ -29,7 +29,7 @@ public class LoginCheckFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("过滤器执行了！");
+        //System.out.println("过滤器执行了！");
         //转换请求和响应对象
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -51,7 +51,7 @@ public class LoginCheckFilter implements Filter {
 
         //如果不需要处理
         if (check){
-            System.out.println("访问uri无需处理");
+            //System.out.println("访问uri无需处理");
             filterChain.doFilter(request,response);
             return;
         }
@@ -59,7 +59,7 @@ public class LoginCheckFilter implements Filter {
         //客户端 处理登录
         Long id = (Long) request.getSession().getAttribute("employee");
         if(id != null){
-            System.out.println("访问的需要处理，并且处理通过");
+            //System.out.println("访问的需要处理，并且处理通过");
 
             BaseContext.setCurrentId(id);
             filterChain.doFilter(request,response);
@@ -69,7 +69,7 @@ public class LoginCheckFilter implements Filter {
         //移动端 处理登录
         Long userId = (Long) request.getSession().getAttribute("user");
         if(userId != null){
-            System.out.println("访问的需要处理，并且处理通过");
+            //System.out.println("访问的需要处理，并且处理通过");
 
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request,response);
@@ -78,7 +78,7 @@ public class LoginCheckFilter implements Filter {
         //未登录状态
         //此处是根据前端代码写的后端，前端接收到NOTLOGIN字符串会自动跳转登陆页面。
         //此处也可以后端手动跳转登陆页面。
-        System.out.println("访问数据需要处理但处理未通过");
+        //System.out.println("访问数据需要处理但处理未通过");
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
         return;
     }
