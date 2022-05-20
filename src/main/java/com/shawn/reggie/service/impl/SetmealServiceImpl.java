@@ -73,7 +73,8 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
     @Override
     public void modifyStatus(List <Long> ids,Integer type) {
         LambdaUpdateWrapper <Setmeal> updateWrapper = new LambdaUpdateWrapper <>();
-        updateWrapper.in(Setmeal::getId,ids);
+        //添加非空条件，否则菜品禁售 无关套餐情况下报错。
+        updateWrapper.in(!ids.isEmpty(),Setmeal::getId,ids);
         if (type == 0){
             //批量停售
             updateWrapper.set(Setmeal::getStatus,0);

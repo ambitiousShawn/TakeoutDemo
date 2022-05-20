@@ -17,9 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -110,17 +113,18 @@ public class DishServiceImpl extends ServiceImpl <DishMapper, Dish> implements D
      * @param ids
      */
     @Override
-    public void modifyStatus(List <Long> ids,Integer type) {
+    public void modifyStatus(List <Long> ids, Integer type) {
         LambdaUpdateWrapper <Dish> updateWrapper = new LambdaUpdateWrapper <>();
         updateWrapper.in(Dish::getId,ids);
 
         if (type == 0){
             //禁用包含该菜品的套餐
+
             LambdaQueryWrapper <SetmealDish> queryWrapper = new LambdaQueryWrapper <>();
             queryWrapper.in(SetmealDish::getDishId,ids);
             List <SetmealDish> list = setmealDishService.list(queryWrapper);
 
-            List<Long> setmealId = new ArrayList <>();
+            List<Long> setmealId = new LinkedList <>();
             for (SetmealDish sd : list){
                 setmealId.add(sd.getSetmealId());
             }
@@ -155,7 +159,7 @@ public class DishServiceImpl extends ServiceImpl <DishMapper, Dish> implements D
         queryWrapper1.in(Dish::getId,ids);
         queryWrapper1.eq(Dish::getStatus,1);
 
-        int count1 = this.count();
+        int count1 = this.count(queryWrapper1);
         if (count1 > 0){
             throw new CustomException("有菜品仍在售卖，无法删除");
         }

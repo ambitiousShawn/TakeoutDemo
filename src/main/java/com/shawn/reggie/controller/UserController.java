@@ -7,6 +7,7 @@ import com.shawn.reggie.entity.User;
 import com.shawn.reggie.service.UserService;
 import com.shawn.reggie.utils.ValidateCodeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -61,7 +63,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public R<User> login (@RequestBody Map map,HttpSession session){
+    public R<User> login (@RequestBody Map map,HttpSession session) {
         //获取手机号
         String phone = map.get("phone").toString();
         //获取验证码
@@ -73,20 +75,20 @@ public class UserController {
         Object codeInRedis = redisTemplate.opsForValue().get(phone);
 
         //比对
-        if (codeInRedis != null && codeInRedis.equals(code)){
+        if (codeInRedis != null && codeInRedis.equals(code)) {
             //如果能比对成功，说明登陆成功
             //判断当前用户是否为新用户，如果是新用户就自动完成注册
-            LambdaQueryWrapper <User>queryWrapper = new LambdaQueryWrapper <>();
-            queryWrapper.eq(User::getPhone,phone);
+            LambdaQueryWrapper <User> queryWrapper = new LambdaQueryWrapper <>();
+            queryWrapper.eq(User::getPhone, phone);
 
             User user = userService.getOne(queryWrapper);
-            if (user == null){
+            if (user == null) {
                 user = new User();
                 user.setPhone(phone);
                 user.setStatus(1);//数据库默认值为1，可以去掉
                 userService.save(user);
             }
-            session.setAttribute("user",user.getId());
+            session.setAttribute("user", user.getId());
 
             //用户登录成功，可从缓存中删除验证码
             redisTemplate.delete(phone);
@@ -96,5 +98,11 @@ public class UserController {
         return R.error("登录失败，请重试");
     }
 
+    @PostMapping("/loginout")
+    public R<String> logout (HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setAttribute("user",null);
 
+        return R.success("退出登录成功");
+    }
 }
