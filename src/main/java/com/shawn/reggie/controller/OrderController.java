@@ -48,12 +48,16 @@ public class OrderController {
         Long userId = BaseContext.getCurrentId();
         //select * from order_detail where userId = ?
         LambdaQueryWrapper <Orders> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Orders::getUserId,userId);
+        queryWrapper.eq(userId != null,Orders::getUserId,userId);
 
         List <Orders> orders = orderService.list(queryWrapper);
         List<Long> ordersId = new ArrayList <>();
         for (Orders o:orders){
             ordersId.add(o.getId());
+        }
+
+        if (orders.isEmpty()) {
+            return R.success(pageInfo);
         }
 
         LambdaQueryWrapper<OrderDetail> queryWrapper1 = new LambdaQueryWrapper <>();

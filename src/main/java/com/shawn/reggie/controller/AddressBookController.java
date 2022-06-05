@@ -3,6 +3,7 @@ package com.shawn.reggie.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.shawn.reggie.common.BaseContext;
+import com.shawn.reggie.common.CustomException;
 import com.shawn.reggie.common.R;
 import com.shawn.reggie.entity.AddressBook;
 import com.shawn.reggie.service.AddressBookService;
@@ -45,9 +46,13 @@ public class AddressBookController {
         //select * from address_book where userId = ? and default = 1
         Long userId = BaseContext.getCurrentId();
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(AddressBook::getUserId,userId);
+        queryWrapper.eq(userId!=null,AddressBook::getUserId,userId);
         queryWrapper.eq(AddressBook::getIsDefault,1);
         AddressBook one = addressBookService.getOne(queryWrapper);
+
+        if (one == null) {
+            throw new CustomException("请先设置收货地址");
+        }
 
         addressBookService.updateById(one);
         return R.success(one);

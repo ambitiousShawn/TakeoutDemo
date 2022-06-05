@@ -51,7 +51,7 @@ public class LoginCheckFilter implements Filter {
 
         //如果不需要处理
         if (check){
-            //System.out.println("访问uri无需处理");
+            System.out.println("访问uri无需处理");
             filterChain.doFilter(request,response);
             return;
         }
@@ -59,7 +59,7 @@ public class LoginCheckFilter implements Filter {
         //客户端 处理登录
         Long id = (Long) request.getSession().getAttribute("employee");
         if(id != null){
-            //System.out.println("访问的需要处理，并且处理通过");
+            System.out.println("访问的需要处理，并且处理通过");
 
             BaseContext.setCurrentId(id);
             filterChain.doFilter(request,response);
@@ -69,7 +69,7 @@ public class LoginCheckFilter implements Filter {
         //移动端 处理登录
         Long userId = (Long) request.getSession().getAttribute("user");
         if(userId != null){
-            //System.out.println("访问的需要处理，并且处理通过");
+            System.out.println("访问的需要处理，并且处理通过");
 
             BaseContext.setCurrentId(userId);
             filterChain.doFilter(request,response);

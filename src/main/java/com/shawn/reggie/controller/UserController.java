@@ -48,7 +48,7 @@ public class UserController {
             //存到Redis缓存中，并设置过期时间为5min
             redisTemplate.opsForValue().set(phone,code,5, TimeUnit.MINUTES);
 
-            return R.success("手机验证码短信发送成功");
+            return R.success("验证码为："+ code);
         }
 
         return R.error("短信发送失败");
