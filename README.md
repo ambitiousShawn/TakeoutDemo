@@ -1,37 +1,16 @@
 # reggie_byShawn
 
 #### 介绍
-自己练手的第一个外卖项目，学到很多东西！
+基于SpringBoot+MybatisPlus实现前后端分离的 外卖订单管理系统。主要分为后台员工菜品管理系统以及前台 用户点餐平台两个板块。后台管理板块主要有登录、员工管理、菜品套餐管理以及订单管理等功能。前台点餐模块主要包含登录、用户下单、购物车、用户个人信息等模块。
 
 #### 软件架构
-软件架构说明
+1.基础框架：SpringBoot + MybatisPlus搭建
+2.数据库：MySQL，Redis处理缓存及验证码
+3.DevOps：Linux系统，Nginx前后端分离部署
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help) 
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  JDK 8，MySQL5.7
+2.  克隆项目地址，在IDE打开即可
+3.如果自己需要测试或学习，可修改配置文件连接到自己的数据库。
